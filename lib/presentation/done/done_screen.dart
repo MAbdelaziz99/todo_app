@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../data/network/local/data.dart';
 import '../../shared/constants/components.dart';
 import '../home/cubit/home_cubit.dart';
 import '../home/cubit/home_states.dart';
@@ -15,7 +16,7 @@ class DoneScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         HomeCubit cubit = HomeCubit.get(context);
-        var tasks = cubit.doneTaskModels;
+        var tasks = doneTaskModels;
         return Container(
           color: Colors.white,
           child: Padding(

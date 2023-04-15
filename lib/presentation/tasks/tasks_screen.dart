@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:todo_app/data/network/local/data.dart';
 import 'package:todo_app/presentation/home/cubit/home_cubit.dart';
 import 'package:todo_app/presentation/home/cubit/home_states.dart';
 import 'package:todo_app/shared/constants/components.dart';
@@ -14,7 +15,7 @@ class TasksScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         HomeCubit cubit = HomeCubit.get(context);
-        var tasks = cubit.stillTaskModels;
+        var tasks = stillTaskModels;
         return Container(
           color: Colors.white,
           child: Padding(
@@ -47,7 +48,7 @@ class TasksScreen extends StatelessWidget {
                             SizedBox(
                               width: MediaQuery.of(context).size.width * 1 / 2,
                               child: Text(
-                                cubit.stillTaskModels[index].title ?? '',
+                                tasks[index].title ?? '',
                                 style: TextStyle(
                                   fontSize: 20.0.sp,
                                   color: Colors.black,

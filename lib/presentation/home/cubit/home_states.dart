@@ -8,7 +8,7 @@ class HomeCreateDatabaseState extends HomeStates {}
 
 class HomeChangeBottomSheetButtonIcon extends HomeStates {}
 
-class HomeInsertDataSuccessState extends HomeStates {}
+class HomeInsertTaskSuccessState extends HomeStates {}
 
 class HomeInsertDataErrorState extends HomeStates {}
 
@@ -16,7 +16,7 @@ class HomeGetDataSuccessState extends HomeStates {}
 
 class HomeGetDataErrorState extends HomeStates {}
 
-class  HomeDoneTaskState extends HomeStates{}
+class  HomeUpdateTaskState extends HomeStates{}
 
 class  HomeArchiveTaskState extends HomeStates{}
 

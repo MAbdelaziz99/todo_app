@@ -15,7 +15,7 @@ class SplashScreen extends StatelessWidget {
       color: Colors.white,
       child: Center(
         child: Image.asset(
-          'assets/images/notes_splash.png',
+          'assets/images/todo.png',
           height: MediaQuery.of(context).size.height * 1 / 2,
           width: MediaQuery.of(context).size.width * 1 / 2,
         ),
