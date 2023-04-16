@@ -1,11 +1,8 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:todo_app/data/network/local/database/db_helber.dart';
 import 'package:todo_app/shared/constants/components.dart';
-import '../../../data/network/local/data.dart';
 import '../../archived/archived_screen.dart';
 import '../../done/done_screen.dart';
 import '../../tasks/tasks_screen.dart';
@@ -42,10 +39,11 @@ class HomeCubit extends Cubit<HomeStates> {
   }
 
   Database? database;
-
+  DBHelper? dbHelper = DBHelper.getInstance();
   createDatabase() async {
-    await DBHelper.createDatabase(onCreate: (db, version) async {
-      await DBHelper.createTaskTableInDB(db);
+
+    await dbHelper?.createDatabase(onCreate: (db, version) async {
+      await dbHelper?.createTaskTableInDB(db);
       emit(HomeCreateDatabaseState());
     }, onOpen: (db) {
       getTasks(database: db);
@@ -59,7 +57,7 @@ class HomeCubit extends Cubit<HomeStates> {
 
   insertDatabase(
       {required context, required title, required time, required date}) async {
-    DBHelper.insertDatabase(
+    dbHelper?.insertDatabase(
       context: context,
       title: title,
       time: time,
@@ -79,12 +77,12 @@ class HomeCubit extends Cubit<HomeStates> {
   }
 
   getTasks({required database}) async {
-    DBHelper.getAllTasks(database: database, listen: (){
+    dbHelper?.getAllTasks(database: database, listen: (){
       emit(HomeGetDataSuccessState());
     });
   }
   updateTask({required id, required status}) async {
-    DBHelper.updateTask(database: database, status: status, id: id);
+    dbHelper?.updateTask(database: database, status: status, id: id);
     emit(HomeUpdateTaskState());
   }
 }

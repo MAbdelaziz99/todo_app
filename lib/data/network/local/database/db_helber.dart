@@ -5,13 +5,14 @@ import 'package:todo_app/data/network/local/data.dart';
 class DBHelper {
   static DBHelper? instance;
 
-  static init() async {
-    instance = DBHelper();
+  static DBHelper? getInstance() {
+    instance ??= DBHelper();
+    return instance;
   }
 
-  static Database? database;
+  Database? database;
 
-  static Future<Database?> createDatabase(
+  Future<Database?> createDatabase(
       {required Function(Database db, int version) onCreate,
       required Function(Database db) onOpen}) async {
     database = await openDatabase(
@@ -23,12 +24,12 @@ class DBHelper {
     return database;
   }
 
-  static Future<void> createTaskTableInDB(Database db) async {
+  Future<void> createTaskTableInDB(Database db) async {
     await db.execute(
         'CREATE TABLE Tasks (id INTEGER PRIMARY KEY, title TEXT, date TEXT, time TEXT, status TEXT)');
   }
 
-  static insertDatabase(
+  insertDatabase(
       {required context,
       required title,
       required time,
@@ -42,59 +43,27 @@ class DBHelper {
     });
   }
 
-  static Future<int> insertRowInTaskTable(Transaction txn, title, time, date) {
-    return txn.rawInsert(
-        'INSERT INTO Tasks(title, time, date, status) VALUES("$title", "$time","$date", "still")');
+  clearTaskList() {
+    allTaskModels = [];
+    doneTaskModels = [];
+    archiveTaskModels = [];
   }
 
-  static getStillTasks({required database, required Function listen}) async {
-    List<Map> stillTasks = await database
-        .rawQuery('SELECT * FROM Tasks WHERE status=?', ['still']);
-    for (Map json in stillTasks) {
-      allTaskModels.add(TaskModel.fromJson(json));
-    }
-    listen();
-  }
-
-  static Future<List<Map>> getDoneTasks(
-      {required database, required Function listen}) async {
-    List<Map> doneTasks = await database!
-        .rawQuery('SELECT * FROM Tasks WHERE status=?', ['done']);
-    for (Map json in doneTasks) {
-      doneTaskModels.add(TaskModel.fromJson(json));
-    }
-    listen();
-    return doneTasks;
-  }
-
-  static Future<List<Map>> getArchivedTasks(
-      {required database, required Function listen}) async {
-    List<Map> archiveTasks = await database!
-        .rawQuery('SELECT * FROM Tasks WHERE status=?', ['archive']);
-    for (Map json in archiveTasks) {
-      archiveTaskModels.add(TaskModel.fromJson(json));
-    }
-    listen();
-    return archiveTasks;
-  }
-
-  static getAllTasks({required database, required Function listen}) async {
+  getAllTasks({required database, required Function listen}) async {
     clearTaskList();
-    List<Map> tasks = await database!
-        .rawQuery('SELECT * FROM Tasks');
+    List<Map> tasks = await database!.rawQuery('SELECT * FROM Tasks');
     for (Map json in tasks) {
       allTaskModels.add(TaskModel.fromJson(json));
     }
     listen();
   }
 
-  static clearTaskList() {
-    allTaskModels = [];
-    doneTaskModels = [];
-    archiveTaskModels = [];
+  Future<int> insertRowInTaskTable(Transaction txn, title, time, date) {
+    return txn.rawInsert(
+        'INSERT INTO Tasks(title, time, date, status) VALUES("$title", "$time","$date", "still")');
   }
 
-  static updateTask({required database, required status, required id}) async {
+  updateTask({required database, required status, required id}) async {
     await database
         .rawUpdate('UPDATE Tasks SET status=? WHERE id=?', ['$status', '$id']);
   }

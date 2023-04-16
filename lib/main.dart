@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:todo_app/bloc_observer.dart';
-import 'package:todo_app/data/network/local/database/db_helber.dart';
 import 'package:todo_app/presentation/home/cubit/home_cubit.dart';
 import 'package:todo_app/presentation/splash/splash_screen.dart';
 
@@ -13,7 +12,6 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   Bloc.observer = MyBlocObserver();
-  DBHelper.init();
 
   runApp(const MyApp());
 }
