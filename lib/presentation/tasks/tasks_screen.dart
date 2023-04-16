@@ -15,7 +15,7 @@ class TasksScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         HomeCubit cubit = HomeCubit.get(context);
-        var tasks = stillTaskModels;
+        var tasks = allTaskModels.where((element) => element.status == 'still').toList();
         return Container(
           color: Colors.white,
           child: Padding(

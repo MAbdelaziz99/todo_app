@@ -16,7 +16,7 @@ class ArchivedScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         HomeCubit cubit = HomeCubit.get(context);
-        var tasks = archiveTaskModels;
+        var tasks = allTaskModels.where((element) => element.status == 'archive').toList();
         return Container(
           color: Colors.white,
           child: Padding(

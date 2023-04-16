@@ -51,7 +51,7 @@ class DBHelper {
     List<Map> stillTasks = await database
         .rawQuery('SELECT * FROM Tasks WHERE status=?', ['still']);
     for (Map json in stillTasks) {
-      stillTaskModels.add(TaskModel.fromJson(json));
+      allTaskModels.add(TaskModel.fromJson(json));
     }
     listen();
   }
@@ -80,13 +80,16 @@ class DBHelper {
 
   static getAllTasks({required database, required Function listen}) async {
     clearTaskList();
-    getStillTasks(database: database, listen: listen);
-    getArchivedTasks(database: database, listen: listen);
-    getDoneTasks(database: database, listen: listen);
+    List<Map> tasks = await database!
+        .rawQuery('SELECT * FROM Tasks');
+    for (Map json in tasks) {
+      allTaskModels.add(TaskModel.fromJson(json));
+    }
+    listen();
   }
 
   static clearTaskList() {
-    stillTaskModels = [];
+    allTaskModels = [];
     doneTaskModels = [];
     archiveTaskModels = [];
   }

@@ -16,7 +16,7 @@ class DoneScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         HomeCubit cubit = HomeCubit.get(context);
-        var tasks = doneTaskModels;
+        var tasks = allTaskModels.where((element) => element.status == 'done').toList();
         return Container(
           color: Colors.white,
           child: Padding(
@@ -107,7 +107,8 @@ class DoneScreen extends StatelessWidget {
                             IconButton(
                                 onPressed: () {
                                   // Move task to archive screen
-                                  cubit.updateTask(id: tasks[index].id, status: 'archive');
+                                  cubit.updateTask(
+                                      id: tasks[index].id, status: 'archive');
                                 },
                                 icon: Icon(
                                   Icons.archive,
